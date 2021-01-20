@@ -1,7 +1,17 @@
 import React from 'react';
 
-const person = () => {
-	return <p>I'm a Person and I am {Math.floor(Math.random() * 30)} years old!</p>;
+// props are all the properties passed in through the jsx
+// if you are using class-based components (like when you do class Person extends Component{}), you would use this.props.name instead of props.name
+// you don't need to pass children into the arguments. it refers to anything in-between opening and closing tags
+const person = (props) => {
+	return (
+		<div>
+			<p>
+				I'm {props.name} and I am {props.age} years old!
+			</p>
+			<p>{props.children}</p>
+		</div>
+	);
 };
 
 export default person;
