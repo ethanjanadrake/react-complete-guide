@@ -14,12 +14,12 @@ class App extends Component {
 	};
 
 	// usually use Handler naming convention for a function that is not called by the developer directly, but an event handler instead
-	switchNameHandler = () => {
+	switchNameHandler = (newName) => {
 		// DON'T DO THIS:
 		// this.state.persons[0] = 'Maximillian';
 		this.setState({
 			persons : [
-				{ name: 'Maximilian', age: 28 },
+				{ name: newName, age: 28 },
 				{ name: 'Manu', age: 29 },
 				{ name: 'Stephanie', age: 27 }
 			]
@@ -39,10 +39,11 @@ class App extends Component {
 			// can't use the keyword class because it's reserved in js. therefore we have to change the keyname to className. this WILL be translated into "class" in CSS in the end, however
 			// with this method, we need one root element, so we can't return two adjacent elements without nesting in one div
 			// onClick is a property that holds a click event. you then call a function without parens to tell the event which function to run on click
+			// bind() takes the first argument and sets it to
 			<div className='App'>
 				<h1>Hi, I'm a React App</h1>
 				<p>This is really working!</p>
-				<button onClick={this.switchNameHandler}>Switch Name</button>
+				<button onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Switch Name</button>
 				{/* 
 				// the following uses the object properties method, but then another method is shown for using the state keyword
 				<Person name='Max' age='28' />
@@ -51,7 +52,11 @@ class App extends Component {
 				</Person>
 				<Person name='Stephanie' age='26' /> */}
 				<Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-				<Person name={this.state.persons[1].name} age={this.state.persons[1].age}>
+				<Person
+					name={this.state.persons[1].name}
+					age={this.state.persons[1].age}
+					click={this.switchNameHandler.bind(this, 'Max!')}
+				>
 					My Hobbies: Racing
 				</Person>
 				<Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
