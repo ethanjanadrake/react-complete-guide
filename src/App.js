@@ -48,20 +48,13 @@ class App extends Component {
 
 		let persons = null;
 
-		// this is another way to set conditional showing of html. persons is a variable that is called in the return statement but is null unless this if statement passes as true
+		// here we used map to step through an array and create a group of objects with replaceable parts. notice that person represents each object in the list so for each item we have access to the object's .name and .age.
 		if (this.state.showPersons) {
 			persons = (
 				<div>
-					<Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-					<Person
-						name={this.state.persons[1].name}
-						age={this.state.persons[1].age}
-						click={this.switchNameHandler.bind(this, 'Max!')}
-						changed={this.nameChangedHandler}
-					>
-						My Hobbies: Racing
-					</Person>
-					<Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
+					{this.state.persons.map((person) => {
+						return <Person name={person.name} age={person.age} />;
+					})}
 				</div>
 			);
 		}
