@@ -26,7 +26,24 @@ class App extends Component {
 		});
 	};
 
+	nameChangedHandler = (event) => {
+		this.setState({
+			persons : [
+				{ name: 'Max', age: 28 },
+				{ name: event.target.value, age: 29 },
+				{ name: 'Stephanie', age: 26 }
+			]
+		});
+	};
+
 	render() {
+		const style = {
+			backgroundColor : 'white',
+			font            : 'inherit',
+			border          : '1px solid blue',
+			padding         : '8px',
+			cursor          : 'pointer'
+		};
 		// React.createElement()
 		// 1. element you want to create
 		// 2. add any className
@@ -39,11 +56,14 @@ class App extends Component {
 			// can't use the keyword class because it's reserved in js. therefore we have to change the keyname to className. this WILL be translated into "class" in CSS in the end, however
 			// with this method, we need one root element, so we can't return two adjacent elements without nesting in one div
 			// onClick is a property that holds a click event. you then call a function without parens to tell the event which function to run on click
-			// bind() takes the first argument and sets it to
+			// bind() creates a new function which takes the first argument and sets it to the parent object (which THIS will then refer to within the function), and any future arguments are the arguments meant to be passed into the function.
+			// *****so for example the button will create a new function onClick which is equivalent to the switchNameHandler function but any mentions of THIS within switchNameHandler will be set to the instance of the App class. Then, it sets the newName argument to 'Maximilian'. The reason we need to do this is to make sure this.setState is referring to the instance of the App class which is how it is intended to work. Otherwise, THIS will refer to the render method which doesn't have a setState function!
 			<div className='App'>
 				<h1>Hi, I'm a React App</h1>
 				<p>This is really working!</p>
-				<button onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Switch Name</button>
+				<button style={style} onClick={this.switchNameHandler.bind(this, 'Maximilian')}>
+					Switch Name
+				</button>
 				{/* 
 				// the following uses the object properties method, but then another method is shown for using the state keyword
 				<Person name='Max' age='28' />
@@ -56,6 +76,7 @@ class App extends Component {
 					name={this.state.persons[1].name}
 					age={this.state.persons[1].age}
 					click={this.switchNameHandler.bind(this, 'Max!')}
+					changed={this.nameChangedHandler}
 				>
 					My Hobbies: Racing
 				</Person>
