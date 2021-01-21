@@ -13,24 +13,35 @@ class App extends Component {
 		showPersons : false
 	};
 
-	nameChangedHandler = (event) => {
-		this.setState({
-			persons : [
-				{ name: 'Max', age: 28 },
-				{ name: event.target.value, age: 29 },
-				{ name: 'Stephanie', age: 26 }
-			]
+	nameChangedHandler = (event, id) => {
+		// find the index of the specified id that was sent to us by the function call
+		const personIndex = this.state.persons.findIndex((p) => {
+			return p.id === id;
 		});
-	};
 
-	deletePersonHandler = (personIndex) => {
-		// copy the persons array (using spread)
+		// copy the person object with the given id
+		const person = { ...this.state.persons[personIndex] };
+
+		// set the name of the person to the textbox where the event was triggered from
+		person.name = event.target.value;
+
+		// copy the entire persons array from the class (this will contain the old info)
 		const persons = [
 			...this.state.persons
 		];
-		// remove the item with the matching index from the array
+
+		// change the old info to the new info using the known index to replace it
+		persons[personIndex] = person;
+
+		// update the state
+		this.setState({ persons: persons });
+	};
+
+	deletePersonHandler = (personIndex) => {
+		const persons = [
+			...this.state.persons
+		];
 		persons.splice(personIndex, 1);
-		// rewrite the array
 		this.setState({ persons: persons });
 	};
 
@@ -49,8 +60,6 @@ class App extends Component {
 
 		let persons = null;
 
-		// here we used map to step through an array and create a group of objects with replaceable parts. notice that person represents each object in the list so for each item we have access to the object's .name and .age.
-		// the index is passed automatically as the second argument. we just have to grab it. we then pass it into deletePersonsHandler
 		if (this.state.showPersons) {
 			persons = (
 				<div>
@@ -61,6 +70,8 @@ class App extends Component {
 								name={person.name}
 								age={person.age}
 								key={person.id}
+								// remember that Person.js has this as an onChange event. we take the event and use it to trigger nameChangedHandler with the id of the person it's attached to.
+								changed={(event) => this.nameChangedHandler(event, person.id)}
 							/>
 						);
 					})}
