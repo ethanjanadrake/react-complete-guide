@@ -3,20 +3,17 @@ import './App.css';
 import Person from './Person/Person';
 
 class App extends Component {
-	// state is a reserved word
 	state = {
-		persons    : [
+		persons     : [
 			{ name: 'Max', age: 28 },
 			{ name: 'Manu', age: 29 },
 			{ name: 'Stephanie', age: 26 }
 		],
-		otherState : 'some other value'
+		otherState  : 'some other value',
+		showPersons : false
 	};
 
-	// usually use Handler naming convention for a function that is not called by the developer directly, but an event handler instead
 	switchNameHandler = (newName) => {
-		// DON'T DO THIS:
-		// this.state.persons[0] = 'Maximillian';
 		this.setState({
 			persons : [
 				{ name: newName, age: 28 },
@@ -36,6 +33,12 @@ class App extends Component {
 		});
 	};
 
+	// using arrow functions allows THIS to refer to the class instead of the function
+	togglePersonsHandler = () => {
+		// change showPersons to the opposite of what it currently is
+		this.setState({ showPersons: !this.state.showPersons });
+	};
+
 	render() {
 		const style = {
 			backgroundColor : 'white',
@@ -44,43 +47,29 @@ class App extends Component {
 			padding         : '8px',
 			cursor          : 'pointer'
 		};
-		// React.createElement()
-		// 1. element you want to create
-		// 2. add any className
-		// 3. add any children
-		// however this method is cumbersome, therefore we use jsx, which is a markup equivalent to this (which is why we still need to import React)
-		// return React.createElement('div', { className: 'App' }, React.createElement('h1', null, 'Does this work now?'));
 
-		// this is jsx. it gets compiled into the code seen above, but is much easier to read and looks almost identical to html in formatting
+		// we wrapped the persons div in a ternary to toggle display of the div. you can't use block statements within jsx such as if statements but ternaries work.
 		return (
-			// can't use the keyword class because it's reserved in js. therefore we have to change the keyname to className. this WILL be translated into "class" in CSS in the end, however
-			// with this method, we need one root element, so we can't return two adjacent elements without nesting in one div
-			// onClick is a property that holds a click event. you then call a function without parens to tell the event which function to run on click
-			// bind() creates a new function which takes the first argument and sets it to the parent object (which THIS will then refer to within the function), and any future arguments are the arguments meant to be passed into the function.
-			// *****so for example the button will create a new function onClick which is equivalent to the switchNameHandler function but any mentions of THIS within switchNameHandler will be set to the instance of the App class. Then, it sets the newName argument to 'Maximilian'. The reason we need to do this is to make sure this.setState is referring to the instance of the App class which is how it is intended to work. Otherwise, THIS will refer to the render method which doesn't have a setState function!
 			<div className='App'>
 				<h1>Hi, I'm a React App</h1>
 				<p>This is really working!</p>
-				<button style={style} onClick={this.switchNameHandler.bind(this, 'Maximilian')}>
-					Switch Name
+				<button style={style} onClick={this.togglePersonsHandler}>
+					Toggle Persons
 				</button>
-				{/* 
-				// the following uses the object properties method, but then another method is shown for using the state keyword
-				<Person name='Max' age='28' />
-				<Person name='Manu' age='29'>
-					My Hobbies: Racing
-				</Person>
-				<Person name='Stephanie' age='26' /> */}
-				<Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-				<Person
-					name={this.state.persons[1].name}
-					age={this.state.persons[1].age}
-					click={this.switchNameHandler.bind(this, 'Max!')}
-					changed={this.nameChangedHandler}
-				>
-					My Hobbies: Racing
-				</Person>
-				<Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
+				{this.state.showPersons ? (
+					<div>
+						<Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+						<Person
+							name={this.state.persons[1].name}
+							age={this.state.persons[1].age}
+							click={this.switchNameHandler.bind(this, 'Max!')}
+							changed={this.nameChangedHandler}
+						>
+							My Hobbies: Racing
+						</Person>
+						<Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
+					</div>
+				) : null}
 			</div>
 		);
 	}

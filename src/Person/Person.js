@@ -2,9 +2,6 @@ import React from 'react';
 
 import './Person.css';
 
-// props are all the properties passed in through the jsx
-// if you are using class-based components (like when you do class Person extends Component{}), you would use this.props.name instead of props.name
-// you don't need to pass children into the arguments. it refers to anything in-between opening and closing tags
 const person = (props) => {
 	return (
 		<div className='Person'>
