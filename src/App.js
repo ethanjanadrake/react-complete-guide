@@ -33,9 +33,7 @@ class App extends Component {
 		});
 	};
 
-	// using arrow functions allows THIS to refer to the class instead of the function
 	togglePersonsHandler = () => {
-		// change showPersons to the opposite of what it currently is
 		this.setState({ showPersons: !this.state.showPersons });
 	};
 
@@ -48,7 +46,26 @@ class App extends Component {
 			cursor          : 'pointer'
 		};
 
-		// we wrapped the persons div in a ternary to toggle display of the div. you can't use block statements within jsx such as if statements but ternaries work.
+		let persons = null;
+
+		// this is another way to set conditional showing of html. persons is a variable that is called in the return statement but is null unless this if statement passes as true
+		if (this.state.showPersons) {
+			persons = (
+				<div>
+					<Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+					<Person
+						name={this.state.persons[1].name}
+						age={this.state.persons[1].age}
+						click={this.switchNameHandler.bind(this, 'Max!')}
+						changed={this.nameChangedHandler}
+					>
+						My Hobbies: Racing
+					</Person>
+					<Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
+				</div>
+			);
+		}
+
 		return (
 			<div className='App'>
 				<h1>Hi, I'm a React App</h1>
@@ -56,20 +73,7 @@ class App extends Component {
 				<button style={style} onClick={this.togglePersonsHandler}>
 					Toggle Persons
 				</button>
-				{this.state.showPersons ? (
-					<div>
-						<Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-						<Person
-							name={this.state.persons[1].name}
-							age={this.state.persons[1].age}
-							click={this.switchNameHandler.bind(this, 'Max!')}
-							changed={this.nameChangedHandler}
-						>
-							My Hobbies: Racing
-						</Person>
-						<Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
-					</div>
-				) : null}
+				{persons}
 			</div>
 		);
 	}
