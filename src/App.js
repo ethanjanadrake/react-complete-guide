@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
-import './App.css';
+// we changed this line to be classes from
+// note that there are a lot of other changes you need to make to your project to get this to work which involves changing the webpack
+import classes from './App.css';
 import Person from './Person/Person';
 
 class App extends Component {
@@ -45,19 +47,10 @@ class App extends Component {
 	};
 
 	render() {
-		const style = {
-			backgroundColor : 'green',
-			font            : 'inherit',
-			border          : '1px solid blue',
-			padding         : '8px',
-			cursor          : 'pointer',
-			':hover'        : {
-				backgroundColor : 'lightgreen',
-				color           : 'black'
-			}
-		};
-
 		let persons = null;
+		let btnClass = [
+			classes.Button
+		];
 
 		if (this.state.showPersons) {
 			persons = (
@@ -76,26 +69,24 @@ class App extends Component {
 				</div>
 			);
 
-			style.backgroundColor = 'red';
-			style[':hover'] = {
-				backgroundColor : 'salmon',
-				color           : 'black'
-			};
+			btnClass.push(classes.Red);
 		}
 
-		const classes = [];
+		// changed the name of this variable so it didn't conflict with the classes variable we are using with CSS Modules
+		const assignedClasses = [];
 		if (this.state.persons.length <= 2) {
-			classes.push('red');
+			assignedClasses.push(classes.red);
 		}
 		if (this.state.persons.length <= 1) {
-			classes.push('bold');
+			assignedClasses.push(classes.bold);
 		}
 
 		return (
-			<div className='App'>
+			<div className={classes.App}>
 				<h1>Hi, I'm a React App</h1>
-				<p className={classes.join(' ')}>This is really working!</p>
-				<button className='button' onClick={this.togglePersonsHandler}>
+				<p className={assignedClasses.join(' ')}>This is really working!</p>
+				{/* changed here to set className to classes.Button due to working with CSS Modules */}
+				<button className={btnClass.join(' ')} onClick={this.togglePersonsHandler}>
 					Toggle Persons
 				</button>
 				{persons}
