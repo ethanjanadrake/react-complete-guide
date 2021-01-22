@@ -6,3 +6,10 @@
 	padding: 16px;
 	text-align: center;
 }
+
+/* this is how you would do a media query without Radium, but we are going to use Radium because there are cases when it would be easier or the best way to do it */
+/* @media (min-width: 500px) {
+	.Person {
+		width: 450px;
+	}
+} */

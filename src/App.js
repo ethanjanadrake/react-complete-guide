@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // don't forget to npm install Radium
-import Radium from 'radium';
+// also import StyleRoot if you are using Radium to do media queries
+import Radium, { StyleRoot } from 'radium';
 
 import './App.css';
 import Person from './Person/Person';
@@ -96,14 +97,17 @@ class App extends Component {
 		}
 
 		return (
-			<div className='App'>
-				<h1>Hi, I'm a React App</h1>
-				<p className={classes.join(' ')}>This is really working!</p>
-				<button style={style} onClick={this.togglePersonsHandler}>
-					Toggle Persons
-				</button>
-				{persons}
-			</div>
+			// when using media queries from Radium you have to wrap the whole app in StyleRoot like this
+			<StyleRoot>
+				<div className='App'>
+					<h1>Hi, I'm a React App</h1>
+					<p className={classes.join(' ')}>This is really working!</p>
+					<button style={style} onClick={this.togglePersonsHandler}>
+						Toggle Persons
+					</button>
+					{persons}
+				</div>
+			</StyleRoot>
 		);
 	}
 }
