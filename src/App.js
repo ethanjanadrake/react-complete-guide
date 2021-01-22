@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import './App.css';
 import Person from './Person/Person';
 
-// to do the pseudoselector within styled-components, you use the & symbol to denote that it's attached to the same element
+// added a dynamic expression for the state of the button. it will update every event or frame
 const StyledButton = styled.button`
-	background-color: green;
+	background-color: ${(props) => (props.alt ? 'red' : 'green')};
 	color: white;
 	font: inherit;
 	border: 1px solid blue;
@@ -14,7 +14,7 @@ const StyledButton = styled.button`
 	cursor: pointer;
 
 	&:hover {
-		background-color: lightgreen;
+		background-color: ${(props) => (props.alt ? 'salmon' : 'lightgreen')};
 		color: black;
 	}
 `;
@@ -111,7 +111,10 @@ class App extends Component {
 			<div className='App'>
 				<h1>Hi, I'm a React App</h1>
 				<p className={classes.join(' ')}>This is really working!</p>
-				<StyledButton onClick={this.togglePersonsHandler}>Toggle Persons</StyledButton>
+				{/* alt prop is there to define an alternate state for styled-components */}
+				<StyledButton alt={this.state.showPersons} onClick={this.togglePersonsHandler}>
+					Toggle Persons
+				</StyledButton>
 				{persons}
 			</div>
 		);
