@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+// don't forget to npm install Radium
+import Radium from 'radium';
+
 import './App.css';
 import Person from './Person/Person';
 
@@ -14,26 +17,20 @@ class App extends Component {
 	};
 
 	nameChangedHandler = (event, id) => {
-		// find the index of the specified id that was sent to us by the function call
 		const personIndex = this.state.persons.findIndex((p) => {
 			return p.id === id;
 		});
 
-		// copy the person object with the given id
 		const person = { ...this.state.persons[personIndex] };
 
-		// set the name of the person to the textbox where the event was triggered from
 		person.name = event.target.value;
 
-		// copy the entire persons array from the class (this will contain the old info)
 		const persons = [
 			...this.state.persons
 		];
 
-		// change the old info to the new info using the known index to replace it
 		persons[personIndex] = person;
 
-		// update the state
 		this.setState({ persons: persons });
 	};
 
@@ -50,12 +47,17 @@ class App extends Component {
 	};
 
 	render() {
+		// the colon makes the key an invalid property, so when using Radium we have to put it in quotation marks
 		const style = {
 			backgroundColor : 'green',
 			font            : 'inherit',
 			border          : '1px solid blue',
 			padding         : '8px',
-			cursor          : 'pointer'
+			cursor          : 'pointer',
+			':hover'        : {
+				backgroundColor : 'lightgreen',
+				color           : 'black'
+			}
 		};
 
 		let persons = null;
@@ -70,7 +72,6 @@ class App extends Component {
 								name={person.name}
 								age={person.age}
 								key={person.id}
-								// remember that Person.js has this as an onChange event. we take the event and use it to trigger nameChangedHandler with the id of the person it's attached to.
 								changed={(event) => this.nameChangedHandler(event, person.id)}
 							/>
 						);
@@ -79,14 +80,19 @@ class App extends Component {
 			);
 
 			style.backgroundColor = 'red';
+			// this is how you would change the Radium pseudoselector's behavior. the square brackets identify the key just like they would for any js object
+			style[':hover'] = {
+				backgroundColor : 'salmon',
+				color           : 'black'
+			};
 		}
 
 		const classes = [];
 		if (this.state.persons.length <= 2) {
-			classes.push('red'); //classes = ['red']
+			classes.push('red');
 		}
 		if (this.state.persons.length <= 1) {
-			classes.push('bold'); //classes = ['red','bold']
+			classes.push('bold');
 		}
 
 		return (
@@ -102,4 +108,5 @@ class App extends Component {
 	}
 }
 
-export default App;
+// "higher order component" just a component wrapping your component which will understand some extra features
+export default Radium(App);
