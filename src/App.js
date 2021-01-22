@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-// don't forget to npm install Radium
-// also import StyleRoot if you are using Radium to do media queries
-import Radium, { StyleRoot } from 'radium';
 
 import './App.css';
 import Person from './Person/Person';
@@ -48,7 +45,6 @@ class App extends Component {
 	};
 
 	render() {
-		// the colon makes the key an invalid property, so when using Radium we have to put it in quotation marks
 		const style = {
 			backgroundColor : 'green',
 			font            : 'inherit',
@@ -81,7 +77,6 @@ class App extends Component {
 			);
 
 			style.backgroundColor = 'red';
-			// this is how you would change the Radium pseudoselector's behavior. the square brackets identify the key just like they would for any js object
 			style[':hover'] = {
 				backgroundColor : 'salmon',
 				color           : 'black'
@@ -97,20 +92,16 @@ class App extends Component {
 		}
 
 		return (
-			// when using media queries from Radium you have to wrap the whole app in StyleRoot like this
-			<StyleRoot>
-				<div className='App'>
-					<h1>Hi, I'm a React App</h1>
-					<p className={classes.join(' ')}>This is really working!</p>
-					<button style={style} onClick={this.togglePersonsHandler}>
-						Toggle Persons
-					</button>
-					{persons}
-				</div>
-			</StyleRoot>
+			<div className='App'>
+				<h1>Hi, I'm a React App</h1>
+				<p className={classes.join(' ')}>This is really working!</p>
+				<button style={style} onClick={this.togglePersonsHandler}>
+					Toggle Persons
+				</button>
+				{persons}
+			</div>
 		);
 	}
 }
 
-// "higher order component" just a component wrapping your component which will understand some extra features
-export default Radium(App);
+export default App;
