@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 // import './Person.css';
 
-// this is a valid React component created by styled-components
 const StyledDiv = styled.div`
 	width: 60%;
 	margin: 10px auto;
@@ -19,8 +18,7 @@ const StyledDiv = styled.div`
 
 const person = (props) => {
 	return (
-		// <div className='Person' style={style}>
-		<StyledDiv>
+		<StyledDiv className='Person'>
 			<p onClick={props.click}>
 				I'm {props.name} and I am {props.age} years old!
 			</p>

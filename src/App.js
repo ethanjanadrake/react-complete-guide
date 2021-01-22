@@ -1,23 +1,7 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 
 import './App.css';
 import Person from './Person/Person';
-
-// added a dynamic expression for the state of the button. it will update every event or frame
-const StyledButton = styled.button`
-	background-color: ${(props) => (props.alt ? 'red' : 'green')};
-	color: white;
-	font: inherit;
-	border: 1px solid blue;
-	padding: 8px;
-	cursor: pointer;
-
-	&:hover {
-		background-color: ${(props) => (props.alt ? 'salmon' : 'lightgreen')};
-		color: black;
-	}
-`;
 
 class App extends Component {
 	state = {
@@ -111,10 +95,9 @@ class App extends Component {
 			<div className='App'>
 				<h1>Hi, I'm a React App</h1>
 				<p className={classes.join(' ')}>This is really working!</p>
-				{/* alt prop is there to define an alternate state for styled-components */}
-				<StyledButton alt={this.state.showPersons} onClick={this.togglePersonsHandler}>
+				<button className='button' onClick={this.togglePersonsHandler}>
 					Toggle Persons
-				</StyledButton>
+				</button>
 				{persons}
 			</div>
 		);
