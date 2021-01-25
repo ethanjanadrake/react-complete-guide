@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 
-// we changed this line to be classes from
-// note that there are a lot of other changes you need to make to your project to get this to work which involves changing the webpack
 import classes from './App.css';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
 	state = {
@@ -52,18 +51,20 @@ class App extends Component {
 			classes.Button
 		];
 
+		// we added the ErrorBoundary around the Person because that will now handle any errors that occur in that component. We moved the key to the ErrorBoundary element because it is now the outer element in a map method because that's the method that is actually replicated
 		if (this.state.showPersons) {
 			persons = (
 				<div>
 					{this.state.persons.map((person, index) => {
 						return (
-							<Person
-								click={() => this.deletePersonHandler(index)}
-								name={person.name}
-								age={person.age}
-								key={person.id}
-								changed={(event) => this.nameChangedHandler(event, person.id)}
-							/>
+							<ErrorBoundary key={person.id}>
+								<Person
+									click={() => this.deletePersonHandler(index)}
+									name={person.name}
+									age={person.age}
+									changed={(event) => this.nameChangedHandler(event, person.id)}
+								/>
+							</ErrorBoundary>
 						);
 					})}
 				</div>
